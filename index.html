@@ -8,46 +8,27 @@
     <title>SourceOS V1</title>
     <style>
         :root {
-            --bg: #0a0f1a;
-            --surface: #131a2a;
-            --surface2: #1a2338;
-            --border: rgba(255, 255, 255, 0.06);
-            --border2: rgba(255, 255, 255, 0.1);
-            --text: #e8edf5;
-            --text2: #8fa0b8;
-            --text3: #5e6e82;
-            --blue: #4b9fff;
-            --green: #3fb950;
-            --red: #f85149;
-            --amber: #d2991d;
-            --purple: #a371f7;
-            --radius-sm: 8px;
-            --radius: 12px;
-            --radius-lg: 16px;
-            --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
-            --transition: 0.2s ease;
+            --bg: #0a0f1a; --surface: #131a2a; --surface2: #1a2338;
+            --border: rgba(255,255,255,0.06); --border2: rgba(255,255,255,0.1);
+            --text: #e8edf5; --text2: #8fa0b8; --text3: #5e6e82;
+            --blue: #4b9fff; --green: #3fb950; --red: #f85149;
+            --amber: #d2991d; --purple: #a371f7;
+            --radius: 12px; --radius-sm: 8px;
+            --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: var(--font);
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 0 0 90px 0;
-            line-height: 1.5;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
+            background: var(--bg); color: var(--text); font-family: var(--font);
+            max-width: 500px; margin: 0 auto; padding: 0 0 90px 0; line-height: 1.5;
+            -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased;
         }
         header {
-            position: sticky; top: 0; z-index: 30;
-            background: rgba(10,15,26,0.9);
+            position: sticky; top: 0; z-index: 30; background: rgba(10,15,26,0.9);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border); padding: 14px 16px;
             display: flex; align-items: center; justify-content: space-between;
         }
-        header h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.3px; }
+        header h1 { font-size: 1.2rem; font-weight: 700; }
         header h1 span { color: var(--blue); }
         .page { display: none; padding: 16px; animation: fadeIn 0.25s ease; }
         .page.active { display: block; }
@@ -57,7 +38,7 @@
         .kpi { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; text-align: center; }
         .kpi .val { font-size: 1.4rem; font-weight: 700; }
         .kpi .lbl { font-size: 0.65rem; color: var(--text2); text-transform: uppercase; margin-top: 4px; }
-        .btn { display: block; width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; text-align: center; font-family: var(--font); transition: var(--transition); }
+        .btn { display: block; width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; text-align: center; font-family: var(--font); transition: 0.2s; }
         .btn:active { transform: scale(0.97); }
         .btn-primary { background: var(--blue); color: #fff; }
         .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border2); }
@@ -88,7 +69,7 @@
         .checklist-item {
             display: flex; align-items: center; gap: 10px; padding: 10px 12px;
             background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
-            cursor: pointer; transition: var(--transition);
+            cursor: pointer; transition: 0.2s;
         }
         .checklist-item:hover { border-color: var(--blue); }
         .checklist-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--green); pointer-events: none; }
@@ -99,15 +80,11 @@
         .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid var(--border2); padding: 12px 20px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; z-index: 50; pointer-events: none; opacity: 0; transition: opacity 0.3s; }
         .toast.show { opacity: 1; }
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 40; display: flex; align-items: flex-start; justify-content: center; padding: 20px; overflow-y: auto; }
-        .modal-content { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius-lg); padding: 20px; width: 100%; max-width: 460px; margin-top: 10px; }
+        .modal-content { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 20px; width: 100%; max-width: 460px; margin-top: 10px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         hr { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
-        .readonly-field { background: var(--surface); border: 1px solid var(--border); padding: 12px; border-radius: 8px; font-size: 0.85rem; color: var(--text); opacity: 0.8; }
-        .chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
-        .chip { padding: 6px 12px; border-radius: 16px; font-size: 0.7rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border2); background: var(--surface2); color: var(--text2); }
-        .chip.active { background: var(--blue); color: #fff; border-color: var(--blue); }
-        nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10,15,26,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 6px 4px 14px 4px; z-index: 20; max-width: 500px; margin: 0 auto; }
+        .readonly-field { background: var(--surface); border: 1px solid var(--border); padding: 12px; border-radius: 8px; font-size: 0.85rem; color: var(--text); }
+        nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10,15,26,0.95); backdrop-filter: blur(20px); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 6px 4px 14px 4px; z-index: 20; max-width: 500px; margin: 0 auto; }
         nav button { background: none; border: none; color: var(--text3); font-size: 0.55rem; font-weight: 600; cursor: pointer; padding: 4px 2px; border-radius: 6px; display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; min-width: 0; }
         nav button.active { color: var(--blue); }
         nav button svg { width: 20px; height: 20px; }
@@ -120,7 +97,7 @@
     </header>
     <div class="toast" id="toast"></div>
 
-    <!-- DASHBOARD PAGE -->
+    <!-- DASHBOARD -->
     <div class="page active" id="page-dashboard">
         <div class="card">
             <div class="section-title">📊 Procurement Overview</div>
@@ -141,28 +118,24 @@
         </div>
     </div>
 
-    <!-- GRADE PHONE PAGE -->
+    <!-- GRADE PHONE (the universal inspection form) -->
     <div class="page" id="page-grade">
         <div class="card">
             <div class="flex-between mb-3">
                 <h2 class="text-lg font-bold">Phone Grading Engine</h2>
                 <span class="badge badge-blue" id="gradeScoreDisplay">Score: 0/100</span>
             </div>
-            <!-- GRADING SECTIONS (rendered by JS) -->
             <div id="gradingSections"></div>
-
-            <!-- DECISION OUTPUT -->
             <div class="text-center mt-3">
                 <div class="score-ring" id="scoreRing"><span class="sc" id="finalScore">0</span></div>
-                <div id="decisionText" class="text-sm font-bold mt-2">Complete checklist</div>
-                <button class="btn btn-primary mt-3" onclick="makeDecision()">🔍 Grade This Phone</button>
-                <!-- LOG THIS PHONE BUTTON (hidden until IMPORT decision) -->
+                <div id="decisionText" class="text-sm font-bold mt-2">Complete all sections</div>
+                <button class="btn btn-primary mt-3" onclick="gradePhone()">🔍 Grade This Phone</button>
                 <button class="btn btn-primary mt-2" id="btnLogPurchase" style="display:none;" onclick="showAddPhoneForm()">📦 Log This Phone</button>
             </div>
         </div>
     </div>
 
-    <!-- INVENTORY / SOURCING LOG PAGE -->
+    <!-- INVENTORY / SOURCING LOG -->
     <div class="page" id="page-inventory">
         <div class="flex-between mb-3">
             <h2 class="text-lg font-bold">Sourcing Log</h2>
@@ -179,7 +152,7 @@
         <div id="inventoryList"></div>
     </div>
 
-    <!-- SETTINGS PAGE -->
+    <!-- SETTINGS -->
     <div class="page" id="page-settings">
         <h2 class="text-lg font-bold mb-3">Settings & Backup</h2>
         <div class="card">
@@ -190,18 +163,12 @@
             <hr>
             <button class="btn btn-danger" onclick="resetAll()">🗑 Reset All Data</button>
         </div>
-        <div class="card mt-3">
-            <div class="section-title">How to Backup to iCloud</div>
-            <p class="text-xs text-gray">Export the JSON file, then save it to your Files app. iCloud will sync it automatically if iCloud Drive is enabled.</p>
-        </div>
     </div>
 
-    <!-- MODAL (reused for forms and detail view) -->
     <div class="modal" id="genericModal" style="display:none;">
         <div class="modal-content" id="modalContent"></div>
     </div>
 
-    <!-- BOTTOM NAVIGATION -->
     <nav id="mainNav">
         <button class="active" data-page="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Pulse</button>
         <button data-page="grade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Grade</button>
@@ -210,8 +177,7 @@
     </nav>
 
     <script>
-        // ========== DATA ENGINE ==========
-        const STORAGE_KEY = 'sourceos_v2';
+        const STORAGE_KEY = 'sourceos_v3';
         let app = {
             capital: { available: 0, inInventory: 0, inTransit: 0 },
             inventory: [],
@@ -236,7 +202,6 @@
         }
         function gid() { return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2,6); }
 
-        // ========== NAVIGATION ==========
         function showPage(page) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('#mainNav button').forEach(b => b.classList.remove('active'));
@@ -254,7 +219,6 @@
             if (b && b.dataset.page) showPage(b.dataset.page);
         });
 
-        // ========== DASHBOARD ==========
         function renderDashboard() {
             const totalInventory = app.inventory.filter(i => i.status === 'purchased' || i.status === 'shipping' || i.status === 'received').reduce((s, i) => s + (i.purchasePrice || 0), 0);
             const successRate = app.inventory.filter(i => i.status === 'sold' || i.status === 'received').length / (app.inventory.length || 1) * 100;
@@ -277,196 +241,191 @@
             `).join('') : '<p class="text-xs text-gray text-center">No sourcing activity yet</p>';
         }
 
-        // ========== GRADING ENGINE ==========
-        // Temporary storage for dropdown scores
-        window._displayScore = 0;
-        window._batteryScore = 0;
-        window._cameraScore = 0;
-        window._partsScore = 0;
-        window._profitScore = 0;
-
+        // ========== UNIVERSAL GRADING ENGINE ==========
         function renderGrade() {
             let html = '';
-            // Seller Score (checkboxes)
-            html += `<div class="card"><div class="section-title">⭐ Seller Score (20pts)</div><div class="checklist-grid">`;
-            [
-                { id: 'seller_rating', label: 'Rating 4.8+ (5pts)', points: 5 },
-                { id: 'seller_transactions', label: '1000+ transactions (5pts)', points: 5 },
-                { id: 'seller_age', label: 'Account 2+ years (4pts)', points: 4 },
-                { id: 'seller_specialist', label: 'Phone specialist (3pts)', points: 3 },
-                { id: 'seller_response', label: 'Response rate 95%+ (3pts)', points: 3 }
-            ].forEach(item => {
-                html += `<div class="checklist-item" onclick="toggleCheck(this)" data-points="${item.points}"><input type="checkbox"><span>${item.label}</span></div>`;
-            });
-            html += `</div></div>`;
-
-            // Cosmetic (checkboxes)
-            html += `<div class="card"><div class="section-title">📱 Cosmetic (10pts)</div><div class="checklist-grid">`;
-            [
-                { id: 'cosmetic_frame', label: 'Frame: no heavy damage (4pts)', points: 4 },
-                { id: 'cosmetic_screen', label: 'Screen: no heavy scratches (3pts)', points: 3 },
-                { id: 'cosmetic_back', label: 'Back glass: not cracked (3pts)', points: 3 }
-            ].forEach(item => {
-                html += `<div class="checklist-item" onclick="toggleCheck(this)" data-points="${item.points}"><input type="checkbox"><span>${item.label}</span></div>`;
-            });
-            html += `</div></div>`;
-
-            // Display Score (dropdown)
-            html += `<div class="card"><div class="section-title">🖥 Display (15pts)</div>
-                <select id="displaySelect" onchange="updateDisplayScore()">
-                    <option value="0">Select display type</option>
-                    <option value="15">Original Apple display (15pts)</option>
-                    <option value="12">Genuine Apple replacement (12pts)</option>
-                    <option value="8">High quality Chinese OLED (8pts)</option>
-                    <option value="4">LCD replacement (4pts)</option>
-                    <option value="0">Unknown display (0pts)</option>
-                </select>
-                <div class="checklist-item mt-2" onclick="toggleCheck(this)" data-points="-3" id="displayTrueTone">
-                    <input type="checkbox"><span>True Tone missing (−3pts)</span>
+            // Section 1: Basic Information
+            html += `<div class="card"><div class="section-title">📱 Basic Information</div>
+                <div class="grid-2">
+                    <div><label>Model</label><input type="text" id="gModel" placeholder="iPhone 12"></div>
+                    <div><label>Storage (GB)</label><input type="number" id="gStorage" value="64"></div>
                 </div>
+                <label class="mt-2">Color</label><input type="text" id="gColor">
+                <div class="grid-2 mt-2">
+                    <div><label>IMEI</label><input type="text" id="gIMEI"></div>
+                    <div><label>Serial</label><input type="text" id="gSerial"></div>
+                </div>
+                <label class="mt-2">Region</label><input type="text" id="gRegion" placeholder="UK, USA, JP, HK...">
+                <label class="mt-2">Carrier</label><select id="gCarrier"><option>Unlocked</option><option>Locked</option></select>
+                <label class="mt-2">Supplier Name</label><input type="text" id="gSupplier">
+                <div class="grid-2 mt-2">
+                    <div><label>Platform</label><input type="text" id="gPlatform" placeholder="eBay, Idle Fish..."></div>
+                    <div><label>Rating</label><input type="number" id="gRating" min="1" max="5" value="5"></div>
+                </div>
+                <label class="mt-2">Transaction Count</label><input type="number" id="gTransactions" value="0">
             </div>`;
 
-            // Battery Score (dropdown)
-            html += `<div class="card"><div class="section-title">🔋 Battery (10pts)</div>
-                <select id="batterySelect" onchange="updateBatteryScore()">
+            // Section 2: Seller Verification (checkboxes)
+            html += `<div class="card"><div class="section-title">⭐ Seller Verification</div><div class="checklist-grid">`;
+            ['Rating above 4.8','1000+ completed sales','Phone specialist','Account older than 2 years','Responds quickly','Provides live video','Provides IMEI before payment'].forEach((item, i) => {
+                html += `<div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span>${item}</span></div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 3: Cosmetic Inspection
+            html += `<div class="card"><div class="section-title">📱 Cosmetic Inspection</div><div class="checklist-grid">`;
+            ['Frame: no heavy damage','Screen: no heavy scratches','Back glass: intact','Camera lens: clear','Buttons: functional','Charging port: clean','Speaker grills: clean'].forEach((item, i) => {
+                html += `<div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span>${item}</span></div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 4: Display Inspection
+            html += `<div class="card"><div class="section-title">🖥 Display Inspection</div>
+                <select id="displayType" onchange="updateDisplayScore()">
+                    <option value="0">Select display type</option>
+                    <option value="15">Original Apple display</option>
+                    <option value="12">Genuine Apple replacement</option>
+                    <option value="8">OLED replacement</option>
+                    <option value="4">LCD replacement</option>
+                    <option value="0">Unknown display</option>
+                </select>
+                <div class="checklist-grid mt-2">`;
+            ['True Tone working','Brightness uniform','No green line','No dead pixels','No screen burn','No touch issues'].forEach((item, i) => {
+                html += `<div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span>${item}</span></div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 5: Battery Inspection
+            html += `<div class="card"><div class="section-title">🔋 Battery Inspection</div>
+                <select id="batteryHealth" onchange="updateBatteryScore()">
                     <option value="0">Select battery health</option>
-                    <option value="10">95–100% (10pts)</option>
-                    <option value="9">90–94% (9pts)</option>
-                    <option value="8">85–89% (8pts)</option>
-                    <option value="6">80–84% (6pts)</option>
-                    <option value="0">Below 80% (0pts)</option>
-                    <option value="-3">Unknown battery (−3pts)</option>
+                    <option value="10">95–100%</option>
+                    <option value="9">90–94%</option>
+                    <option value="8">85–89%</option>
+                    <option value="6">80–84%</option>
+                    <option value="0">Below 80%</option>
+                </select>
+                <div class="checklist-grid mt-2">`;
+            ['Charging test passed','Battery original (not replaced)'].forEach((item, i) => {
+                html += `<div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span>${item}</span></div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 6: Face ID
+            html += `<div class="card"><div class="section-title">👤 Face ID</div>
+                <select id="faceID" onchange="updateFaceIDScore()">
+                    <option value="10">Working</option>
+                    <option value="0">Not working</option>
+                    <option value="-5">Unknown</option>
                 </select>
             </div>`;
 
-            // Face ID (checkbox)
-            html += `<div class="card"><div class="section-title">👤 Face ID (10pts)</div><div class="checklist-grid">`;
-            html += `<div class="checklist-item" onclick="toggleCheck(this)" data-points="10"><input type="checkbox"><span>Face ID working (10pts)</span></div>`;
+            // Section 7: Camera Inspection
+            html += `<div class="card"><div class="section-title">📸 Camera Inspection</div><div class="checklist-grid">`;
+            ['Front camera works','Wide camera works','Ultra Wide works','Telephoto works (if available)','Flash works','Portrait mode works','Video recording works','No camera shake','Focus test passed'].forEach((item, i) => {
+                html += `<div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span>${item}</span></div>`;
+            });
             html += `</div></div>`;
 
-            // Camera (dropdown)
-            html += `<div class="card"><div class="section-title">📸 Camera (10pts)</div>
-                <select id="cameraSelect" onchange="updateCameraScore()">
-                    <option value="0">Select camera condition</option>
-                    <option value="10">All cameras original (10pts)</option>
-                    <option value="7">One camera replaced (7pts)</option>
-                    <option value="4">Unknown camera (4pts)</option>
-                    <option value="reject">Camera shake — REJECT</option>
-                </select>
-            </div>`;
-
-            // Parts Authenticity (dropdown)
-            html += `<div class="card"><div class="section-title">🔧 Parts Authenticity (10pts)</div>
-                <select id="partsSelect" onchange="updatePartsScore()">
-                    <option value="0">Select parts condition</option>
-                    <option value="10">All original parts (10pts)</option>
-                    <option value="8">Original screen, battery changed (8pts)</option>
-                    <option value="6">Original battery, screen changed (6pts)</option>
-                    <option value="4">Both screen and battery changed (4pts)</option>
-                    <option value="2">Multiple unknown parts (2pts)</option>
-                    <option value="reject">Logic board repaired — REJECT</option>
-                    <option value="reject">Water damage — REJECT</option>
-                </select>
-            </div>`;
-
-            // Network (checkbox)
-            html += `<div class="card"><div class="section-title">📶 Network (5pts)</div><div class="checklist-grid">`;
-            html += `<div class="checklist-item" onclick="toggleCheck(this)" data-points="5"><input type="checkbox"><span>Everything works (5pts)</span></div>`;
+            // Section 8: Internal Parts
+            html += `<div class="card"><div class="section-title">🔧 Internal Parts</div><div class="checklist-grid">`;
+            ['Screen original','Battery original','Camera original','No logic board repair','No water damage','No unknown parts','No Apple Parts & Service warning'].forEach((item, i) => {
+                html += `<div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span>${item}</span></div>`;
+            });
             html += `</div></div>`;
 
-            // Reset Verification (checkbox)
-            html += `<div class="card"><div class="section-title">🔄 Reset Verification (10pts)</div><div class="checklist-grid">`;
-            html += `<div class="checklist-item" onclick="toggleCheck(this)" data-points="10"><input type="checkbox"><span>Activation lock free (10pts)</span></div>`;
+            // Section 9: Functional Test
+            html += `<div class="card"><div class="section-title">📶 Functional Test</div><div class="checklist-grid">`;
+            ['Wi-Fi','Bluetooth','Cellular','SIM','eSIM','Microphone','Speaker','Ear speaker','Charging','Vibration','Proximity sensor','Ambient light sensor','NFC','GPS'].forEach((item, i) => {
+                html += `<div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span>${item}</span></div>`;
+            });
             html += `</div></div>`;
 
-            // Profit Score (dropdown)
-            html += `<div class="card"><div class="section-title">💰 Profit Score (10pts)</div>
-                <select id="profitSelect" onchange="updateProfitScore()">
-                    <option value="0">Select expected profit range</option>
-                    <option value="10">> ₦50,000 (10pts)</option>
-                    <option value="8">₦40,000 (8pts)</option>
-                    <option value="6">₦30,000 (6pts)</option>
-                    <option value="4">₦20,000 (4pts)</option>
-                    <option value="0">< ₦15,000 (0pts)</option>
-                </select>
+            // Section 10: Reset Verification
+            html += `<div class="card"><div class="section-title">🔄 Reset Verification</div><div class="checklist-grid">`;
+            ['Activation Lock removed','Find My disabled','Phone fully reset','Passcode removed'].forEach((item, i) => {
+                html += `<div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span>${item}</span></div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 11: Financial Analysis
+            html += `<div class="card"><div class="section-title">💰 Financial Analysis</div>
+                <div class="grid-2">
+                    <div><label>Purchase Price (₦)</label><input type="number" id="fPrice" oninput="calcFinancials()"></div>
+                    <div><label>Shipping Cost (₦)</label><input type="number" id="fShipping" value="0" oninput="calcFinancials()"></div>
+                </div>
+                <div class="grid-2 mt-2">
+                    <div><label>Customs Cost (₦)</label><input type="number" id="fCustoms" value="0" oninput="calcFinancials()"></div>
+                    <div><label>Repair Cost (₦)</label><input type="number" id="fRepair" value="0" oninput="calcFinancials()"></div>
+                </div>
+                <div class="grid-2 mt-2">
+                    <div><label>Landing Cost</label><div class="readonly-field" id="fLanding">₦0</div></div>
+                    <div><label>Expected Sell Price (₦)</label><input type="number" id="fSellPrice" oninput="calcFinancials()"></div>
+                </div>
+                <div class="grid-2 mt-2">
+                    <div><label>Expected Profit</label><div class="readonly-field" id="fProfit">₦0</div></div>
+                    <div><label>ROI %</label><div class="readonly-field" id="fROI">0%</div></div>
+                </div>
             </div>`;
 
             document.getElementById('gradingSections').innerHTML = html;
             document.getElementById('finalScore').textContent = '0';
-            document.getElementById('decisionText').textContent = 'Complete checklist';
+            document.getElementById('decisionText').textContent = 'Complete all sections';
             document.getElementById('btnLogPurchase').style.display = 'none';
-            // Reset dropdown scores
-            window._displayScore = 0;
-            window._batteryScore = 0;
-            window._cameraScore = 0;
-            window._partsScore = 0;
-            window._profitScore = 0;
         }
 
-        // Toggle checkbox styling and update total
         function toggleCheck(element) {
             element.classList.toggle('checked');
-            const cb = element.querySelector('input[type="checkbox"]');
-            cb.checked = !cb.checked;
+            element.querySelector('input[type="checkbox"]').checked = element.classList.contains('checked');
             updateTotalScore();
         }
 
-        // Dropdown change handlers
+        let displayScore = 0, batteryScore = 0, faceIDScore = 10;
         function updateDisplayScore() {
-            const sel = document.getElementById('displaySelect');
-            window._displayScore = parseInt(sel.value) || 0;
+            displayScore = parseInt(document.getElementById('displayType').value) || 0;
             updateTotalScore();
         }
         function updateBatteryScore() {
-            const sel = document.getElementById('batterySelect');
-            window._batteryScore = parseInt(sel.value) || 0;
+            batteryScore = parseInt(document.getElementById('batteryHealth').value) || 0;
             updateTotalScore();
         }
-        function updateCameraScore() {
-            const sel = document.getElementById('cameraSelect');
-            const val = sel.value;
-            if (val === 'reject') { window._cameraScore = -100; }
-            else { window._cameraScore = parseInt(val) || 0; }
-            updateTotalScore();
-        }
-        function updatePartsScore() {
-            const sel = document.getElementById('partsSelect');
-            const val = sel.value;
-            if (val === 'reject') { window._partsScore = -100; }
-            else { window._partsScore = parseInt(val) || 0; }
-            updateTotalScore();
-        }
-        function updateProfitScore() {
-            const sel = document.getElementById('profitSelect');
-            window._profitScore = parseInt(sel.value) || 0;
+        function updateFaceIDScore() {
+            faceIDScore = parseInt(document.getElementById('faceID').value) || 0;
             updateTotalScore();
         }
 
-        // Calculate total score from all inputs
         function updateTotalScore() {
             let score = 0;
-            document.querySelectorAll('#gradingSections .checklist-item.checked').forEach(item => {
-                score += parseInt(item.dataset.points || 0);
-            });
-            score += window._displayScore || 0;
-            score += window._batteryScore || 0;
-            score += window._cameraScore || 0;
-            score += window._partsScore || 0;
-            score += window._profitScore || 0;
-            const tt = document.getElementById('displayTrueTone');
-            if (tt && tt.classList.contains('checked')) score += parseInt(tt.dataset.points || 0);
+            // Checkbox points (each checked adds 1 point for simplicity, but weighted by section)
+            const checked = document.querySelectorAll('#gradingSections .checklist-item.checked').length;
+            score += checked; // each checklist item 1 point
+            // Dropdown scores
+            score += displayScore + batteryScore + faceIDScore;
+            // Cap at 100
             score = Math.max(0, Math.min(100, score));
             document.getElementById('finalScore').textContent = score;
             document.getElementById('gradeScoreDisplay').textContent = 'Score: ' + score + '/100';
             app.currentGrade = score;
         }
 
-        // Make decision based on score
-        function makeDecision() {
+        function gradePhone() {
             updateTotalScore();
             const score = app.currentGrade;
             const decisionEl = document.getElementById('decisionText');
             const btnLog = document.getElementById('btnLogPurchase');
+
+            // Check rejection triggers
+            const cameraShake = document.querySelector('#gradingSections .checklist-item:nth-child(8)')?.classList.contains('checked') === false; // "No camera shake" unchecked means shake exists
+            const logicBoard = document.querySelector('#gradingSections .checklist-item:nth-child(4)')?.classList.contains('checked') === false;
+            const waterDamage = document.querySelector('#gradingSections .checklist-item:nth-child(5)')?.classList.contains('checked') === false;
+            const activationLock = document.querySelector('#gradingSections .checklist-item:nth-child(1)')?.classList.contains('checked') === false;
+
+            if (cameraShake || logicBoard || waterDamage || activationLock) {
+                decisionEl.innerHTML = '<span class="text-red">❌ REJECT — Critical failure detected</span>';
+                btnLog.style.display = 'none';
+                return;
+            }
+
             if (score >= 90) {
                 decisionEl.innerHTML = '<span class="text-green">✅ IMPORT — Good Deal</span>';
                 btnLog.style.display = 'block';
@@ -474,47 +433,30 @@
                 decisionEl.innerHTML = '<span class="text-amber">⚠ NEGOTIATE — Try lower price</span>';
                 btnLog.style.display = 'none';
             } else {
-                decisionEl.innerHTML = '<span class="text-red">❌ REJECT — Do not buy</span>';
+                decisionEl.innerHTML = '<span class="text-red">❌ REJECT — Score too low</span>';
                 btnLog.style.display = 'none';
             }
         }
 
-        // ========== PHONE DETAIL MODAL (tap a logged phone) ==========
-        function viewPhoneDetail(id) {
-            const phone = app.inventory.find(i => i.id === id);
-            if (!phone) return;
-            const modal = document.getElementById('genericModal');
-            const content = document.getElementById('modalContent');
-            content.innerHTML = `
-                <div class="flex-between mb-3">
-                    <h3 class="font-bold">${phone.model} ${phone.storage}GB</h3>
-                    <button onclick="closeModal()" style="background:none;border:none;color:var(--text2);font-size:1.5rem;">×</button>
-                </div>
-                <div class="rm"><strong>Color:</strong> ${phone.color || 'N/A'}</div>
-                <div class="rm"><strong>IMEI:</strong> ${phone.imei || 'N/A'}</div>
-                <div class="rm"><strong>Serial:</strong> ${phone.serial || 'N/A'}</div>
-                <div class="rm"><strong>Supplier:</strong> ${phone.supplierName || 'Unknown'} (${phone.supplierRating}/5)</div>
-                <hr>
-                <div class="grid-2">
-                    <div><label>Purchase Price</label><div class="readonly-field">${fm(phone.purchasePrice)}</div></div>
-                    <div><label>Shipping</label><div class="readonly-field">${fm(phone.shippingCost || 0)}</div></div>
-                    <div><label>Import/Customs</label><div class="readonly-field">${fm(phone.importCost || 0)}</div></div>
-                    <div><label>Landing Cost</label><div class="readonly-field">${fm(phone.landingCost || phone.purchasePrice)}</div></div>
-                    <div><label>Expected Sell Price</label><div class="readonly-field">${fm(phone.expectedSellPrice)}</div></div>
-                    <div><label>Expected Profit</label><div class="readonly-field" style="color:${(phone.expectedProfit||0)>=0?'var(--green)':'var(--red)'}">${fm(phone.expectedProfit||0)}</div></div>
-                </div>
-                <hr>
-                <div class="rm"><strong>Status:</strong> ${phone.status}</div>
-                <div class="rm"><strong>Date:</strong> ${phone.date?.slice(0,10)}</div>
-            `;
-            modal.style.display = 'flex';
+        function calcFinancials() {
+            const price = Number(document.getElementById('fPrice')?.value) || 0;
+            const shipping = Number(document.getElementById('fShipping')?.value) || 0;
+            const customs = Number(document.getElementById('fCustoms')?.value) || 0;
+            const repair = Number(document.getElementById('fRepair')?.value) || 0;
+            const landing = price + shipping + customs + repair;
+            const sell = Number(document.getElementById('fSellPrice')?.value) || 0;
+            const profit = sell - landing;
+            const roi = landing > 0 ? ((profit / landing) * 100).toFixed(1) : 0;
+            document.getElementById('fLanding').textContent = fm(landing);
+            const profitEl = document.getElementById('fProfit');
+            profitEl.textContent = fm(profit);
+            profitEl.style.color = profit >= 0 ? 'var(--green)' : 'var(--red)';
+            document.getElementById('fROI').textContent = roi + '%';
         }
 
-        // ========== ADD PHONE FORM (with cost calculation) ==========
         function showAddPhoneForm() {
             const modal = document.getElementById('genericModal');
-            const content = document.getElementById('modalContent');
-            content.innerHTML = `
+            modal.innerHTML = `<div class="modal-content">
                 <div class="flex-between mb-3"><h3 class="font-bold">Log Phone Purchase</h3><button onclick="closeModal()" style="background:none;border:none;color:var(--text2);font-size:1.5rem;">×</button></div>
                 <label>Model</label><input type="text" id="phModel" placeholder="iPhone 12">
                 <label class="mt-2">Storage (GB)</label><input type="number" id="phStorage" value="64">
@@ -524,12 +466,12 @@
                 <label class="mt-2">Supplier Name</label><input type="text" id="phSupplier">
                 <label class="mt-2">Supplier Rating (1-5)</label><input type="number" id="phRating" min="1" max="5" value="5">
                 <hr>
-                <label class="mt-2">Purchase Price (₦)</label><input type="number" id="phPrice" oninput="calcCosts()">
-                <label class="mt-2">Shipping Cost (₦)</label><input type="number" id="phShipping" value="0" oninput="calcCosts()">
-                <label class="mt-2">Import / Customs Cost (₦)</label><input type="number" id="phImport" value="0" oninput="calcCosts()">
+                <label class="mt-2">Purchase Price (₦)</label><input type="number" id="phPrice" oninput="calcLogCosts()">
+                <label class="mt-2">Shipping Cost (₦)</label><input type="number" id="phShipping" value="0" oninput="calcLogCosts()">
+                <label class="mt-2">Import / Customs Cost (₦)</label><input type="number" id="phImport" value="0" oninput="calcLogCosts()">
                 <div class="grid-2 mt-2">
                     <div><label>Landing Cost</label><div class="readonly-field" id="phLanding">₦0</div></div>
-                    <div><label>Expected Sell Price</label><input type="number" id="phSell" oninput="calcCosts()"></div>
+                    <div><label>Expected Sell Price</label><input type="number" id="phSell" oninput="calcLogCosts()"></div>
                 </div>
                 <div class="grid-2 mt-2">
                     <div><label>Expected Profit</label><div class="readonly-field" id="phProfit">₦0</div></div>
@@ -542,53 +484,37 @@
                     </div>
                 </div>
                 <button class="btn btn-primary mt-3" onclick="savePhone()">Save Phone</button>
-            `;
+            </div>`;
             modal.style.display = 'flex';
-            calcCosts(); // initial calculation
+            calcLogCosts();
         }
 
-        // Real-time cost calculation
-        function calcCosts() {
+        function calcLogCosts() {
             const price = Number(document.getElementById('phPrice')?.value) || 0;
             const shipping = Number(document.getElementById('phShipping')?.value) || 0;
             const importCost = Number(document.getElementById('phImport')?.value) || 0;
-            const sell = Number(document.getElementById('phSell')?.value) || 0;
             const landing = price + shipping + importCost;
+            const sell = Number(document.getElementById('phSell')?.value) || 0;
             const profit = sell - landing;
-            const landingEl = document.getElementById('phLanding');
+            document.getElementById('phLanding').textContent = fm(landing);
             const profitEl = document.getElementById('phProfit');
-            if (landingEl) landingEl.textContent = fm(landing);
-            if (profitEl) {
-                profitEl.textContent = fm(profit);
-                profitEl.style.color = profit >= 0 ? 'var(--green)' : 'var(--red)';
-            }
+            profitEl.textContent = fm(profit);
+            profitEl.style.color = profit >= 0 ? 'var(--green)' : 'var(--red)';
         }
 
-        // Save the phone to inventory
         function savePhone() {
             const g = (id) => document.getElementById(id)?.value || '';
             const gn = (id) => Number(document.getElementById(id)?.value) || 0;
-            const price = gn('phPrice');
-            const shipping = gn('phShipping');
-            const importCost = gn('phImport');
-            const landing = price + shipping + importCost;
-            const sell = gn('phSell');
-            const profit = sell - landing;
             const phone = {
                 id: gid(),
-                model: g('phModel'),
-                storage: gn('phStorage'),
-                color: g('phColor'),
-                imei: g('phIMEI'),
-                serial: g('phSerial'),
-                supplierName: g('phSupplier'),
-                supplierRating: gn('phRating'),
-                purchasePrice: price,
-                shippingCost: shipping,
-                importCost: importCost,
-                landingCost: landing,
-                expectedSellPrice: sell,
-                expectedProfit: profit,
+                model: g('phModel'), storage: gn('phStorage'), color: g('phColor'),
+                imei: g('phIMEI'), serial: g('phSerial'),
+                supplierName: g('phSupplier'), supplierRating: gn('phRating'),
+                purchasePrice: gn('phPrice'), shippingCost: gn('phShipping'),
+                importCost: gn('phImport'),
+                landingCost: gn('phPrice') + gn('phShipping') + gn('phImport'),
+                expectedSellPrice: gn('phSell'),
+                expectedProfit: gn('phSell') - (gn('phPrice') + gn('phShipping') + gn('phImport')),
                 status: g('phStatus'),
                 date: new Date().toISOString()
             };
@@ -611,7 +537,32 @@
 
         function closeModal() { document.getElementById('genericModal').style.display = 'none'; }
 
-        // ========== INVENTORY FILTER & DISPLAY ==========
+        function viewPhoneDetail(id) {
+            const phone = app.inventory.find(i => i.id === id);
+            if (!phone) return;
+            const modal = document.getElementById('genericModal');
+            modal.innerHTML = `<div class="modal-content">
+                <div class="flex-between mb-3"><h3 class="font-bold">${phone.model} ${phone.storage}GB</h3><button onclick="closeModal()" style="background:none;border:none;color:var(--text2);font-size:1.5rem;">×</button></div>
+                <div class="rm"><strong>Color:</strong> ${phone.color || 'N/A'}</div>
+                <div class="rm"><strong>IMEI:</strong> ${phone.imei || 'N/A'}</div>
+                <div class="rm"><strong>Serial:</strong> ${phone.serial || 'N/A'}</div>
+                <div class="rm"><strong>Supplier:</strong> ${phone.supplierName || 'Unknown'} (${phone.supplierRating}/5)</div>
+                <hr>
+                <div class="grid-2">
+                    <div><label>Purchase Price</label><div class="readonly-field">${fm(phone.purchasePrice)}</div></div>
+                    <div><label>Shipping</label><div class="readonly-field">${fm(phone.shippingCost || 0)}</div></div>
+                    <div><label>Import/Customs</label><div class="readonly-field">${fm(phone.importCost || 0)}</div></div>
+                    <div><label>Landing Cost</label><div class="readonly-field">${fm(phone.landingCost || phone.purchasePrice)}</div></div>
+                    <div><label>Expected Sell Price</label><div class="readonly-field">${fm(phone.expectedSellPrice)}</div></div>
+                    <div><label>Expected Profit</label><div class="readonly-field" style="color:${(phone.expectedProfit||0)>=0?'var(--green)':'var(--red)'}">${fm(phone.expectedProfit||0)}</div></div>
+                </div>
+                <hr>
+                <div class="rm"><strong>Status:</strong> ${phone.status}</div>
+                <div class="rm"><strong>Date:</strong> ${phone.date?.slice(0,10)}</div>
+            </div>`;
+            modal.style.display = 'flex';
+        }
+
         let currentFilter = 'all';
         function filterInventory(filter) {
             currentFilter = filter;
@@ -632,7 +583,6 @@
             `).join('') : '<p class="text-xs text-gray text-center">No phones found</p>';
         }
 
-        // ========== SETTINGS & BACKUP ==========
         function renderSettings() {
             const note = document.getElementById('backupNote');
             if (!app.lastBackup) note.textContent = '⚠ No backup yet.';
@@ -685,7 +635,6 @@
             }
         }
 
-        // ========== INIT ==========
         loadData();
         renderDashboard();
         renderGrade();
