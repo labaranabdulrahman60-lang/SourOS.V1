@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>SourceOS V1</title>
+    <style>
+        :root {
+            --bg: #0a0f1a;
+            --surface: #131a2a;
+            --surface2: #1a2338;
+            --border: rgba(255, 255, 255, 0.06);
+            --border2: rgba(255, 255, 255, 0.1);
+            --text: #e8edf5;
+            --text2: #8fa0b8;
+            --text3: #5e6e82;
+            --blue: #4b9fff;
+            --green: #3fb950;
+            --red: #f85149;
+            --amber: #d2991d;
+            --purple: #a371f7;
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+            --transition: 0.2s ease;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 0 90px 0;
+            line-height: 1.5;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background: rgba(10, 15, 26, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+        header h1 span {
+            color: var(--blue);
+        }
+        .page {
+            display: none;
+            padding: 16px;
+            animation: fadeIn 0.25s ease;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .kpi-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .kpi {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px;
+            text-align: center;
+        }
+        .kpi .val {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .kpi .lbl {
+            font-size: 0.65rem;
+            color: var(--text2);
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-align: center;
+            font-family: var(--font);
+            transition: var(--transition);
+        }
+        .btn:active {
+            transform: scale(0.97);
+        }
+        .btn-primary {
+            background: var(--blue);
+            color: #fff;
+        }
+        .btn-secondary {
+            background: var(--surface2);
+            color: var(--text);
+            border: 1px solid var(--border2);
+        }
+        .btn-danger {
+            background: rgba(248, 81, 73, 0.15);
+            color: var(--red);
+            border: 1px solid rgba(248, 81, 73, 0.3);
+        }
+        .btn-small {
+            display: inline-block;
+            width: auto;
+            padding: 8px 14px;
+            font-size: 0.75rem;
+            border-radius: 8px;
+        }
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.85rem;
+            font-family: var(--font);
+            -webkit-appearance: none;
+        }
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--blue);
+        }
+        label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 700;
+        }
+        .badge-green {
+            background: rgba(63, 185, 80, 0.15);
+            color: var(--green);
+        }
+        .badge-red {
+            background: rgba(248, 81, 73, 0.15);
+            color: var(--red);
+        }
+        .badge-blue {
+            background: rgba(75, 159, 255, 0.15);
+            color: var(--blue);
+        }
+        .badge-amber {
+            background: rgba(210, 153, 29, 0.15);
+            color: var(--amber);
+        }
+        .row-item {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        .row-item:active {
+            background: var(--surface);
+        }
+        .row-item .rt {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .row-item .rm {
+            font-size: 0.7rem;
+            color: var(--text2);
+            margin-top: 3px;
+        }
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .mt-2 {
+            margin-top: 8px;
+        }
+        .mt-3 {
+            margin-top: 12px;
+        }
+        .mb-2 {
+            margin-bottom: 8px;
+        }
+        .mb-3 {
+            margin-bottom: 12px;
+        }
+        .text-green {
+            color: var(--green);
+        }
+        .text-red {
+            color: var(--red);
+        }
+        .text-blue {
+            color: var(--blue);
+        }
+        .text-amber {
+            color: var(--amber);
+        }
+        .text-gray {
+            color: var(--text2);
+        }
+        .text-xs {
+            font-size: 0.7rem;
+        }
+        .text-sm {
+            font-size: 0.8rem;
+        }
+        .text-lg {
+            font-size: 1.1rem;
+        }
+        .text-xl {
+            font-size: 1.5rem;
+        }
+        .font-bold {
+            font-weight: 700;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .section-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        .checklist-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .checklist-item:hover {
+            border-color: var(--blue);
+        }
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--green);
+            pointer-events: none;
+        }
+        .checklist-item.checked {
+            background: rgba(63, 185, 80, 0.08);
+            border-color: rgba(63, 185, 80, 0.2);
+        }
+        .checklist-item.checked span {
+            color: var(--green);
+        }
+        .score-ring {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        .score-ring .sc {
+            font-size: 1.6rem;
+            font-weight: 800;
+        }
+        .toast {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--surface);
+            border: 1px solid var(--border2);
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 40;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .modal-content {
+            background: var(--surface);
+            border: 1px solid var(--border2);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            width: 100%;
+            max-width: 460px;
+            margin-top: 10px;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 12px 0;
+        }
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 15, 26, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 6px 4px 14px 4px;
+            z-index: 20;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        nav button {
+            background: none;
+            border: none;
+            color: var(--text3);
+            font-size: 0.55rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 4px 2px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            flex: 1;
+            min-width: 0;
+        }
+        nav button.active {
+            color: var(--blue);
+        }
+        nav button svg {
+            width: 20px;
+            height: 20px;
+        }
+        .readonly-field {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text);
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><span>Source</span>OS</h1>
+        <span class="text-xs text-gray">Procurement Engine</span>
+    </header>
+    <div class="toast" id="toast"></div>
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+        <div class="card">
+            <div class="section-title">📊 Procurement Overview</div>
+            <div class="kpi-row">
+                <div class="kpi"><div class="val" id="dashCapital">₦0</div><div class="lbl">Available Capital</div></div>
+                <div class="kpi"><div class="val" id="dashInventory">₦0</div><div class="lbl">Inventory Value</div></div>
+                <div class="kpi"><div class="val text-green" id="dashSuccess">0%</div><div class="lbl">Import Success</div></div>
+                <div class="kpi"><div class="val" id="dashPending">0</div><div class="lbl">Pending Orders</div></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="section-title">⭐ Top Rated Suppliers</div>
+            <div id="topSuppliers"><p class="text-xs text-gray text-center">No supplier data yet</p></div>
+        </div>
+        <div class="card">
+            <div class="section-title">📦 Recent Sourcing Activity</div>
+            <div id="recentActivity"><p class="text-xs text-gray text-center">No sourcing activity yet</p></div>
+        </div>
+    </div>
+
+    <!-- GRADE PHONE -->
+    <div class="page" id="page-grade">
+        <div class="card">
+            <div class="flex-between mb-3">
+                <h2 class="text-lg font-bold">Phone Grading Engine</h2>
+                <span class="badge badge-blue" id="gradeScoreDisplay">Score: 0/100</span>
+            </div>
+            <div id="gradingSections"></div>
+            <div class="text-center mt-3">
+                <div class="score-ring" id="scoreRing"><span class="sc" id="finalScore">0</span></div>
+                <div id="decisionText" class="text-sm font-bold mt-2">Complete checklist</div>
+                <button class="btn btn-primary mt-3" onclick="makeDecision()">🔍 Grade This Phone</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- INVENTORY / SOURCING LOG -->
+    <div class="page" id="page-inventory">
+        <div class="flex-between mb-3">
+            <h2 class="text-lg font-bold">Sourcing Log</h2>
+            <button class="btn btn-small btn-primary" onclick="showAddPhoneForm()">+ Log Phone</button>
+        </div>
+        <div class="chip-row mb-3" id="inventoryFilter">
+            <span class="chip active" onclick="filterInventory('all')">All</span>
+            <span class="chip" onclick="filterInventory('purchased')">Purchased</span>
+            <span class="chip" onclick="filterInventory('shipping')">Shipping</span>
+            <span class="chip" onclick="filterInventory('received')">Received</span>
+            <span class="chip" onclick="filterInventory('sold')">Sold</span>
+            <span class="chip" onclick="filterInventory('rejected')">Rejected</span>
+        </div>
+        <div id="inventoryList"></div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="page" id="page-settings">
+        <h2 class="text-lg font-bold mb-3">Settings & Backup</h2>
+        <div class="card">
+            <button class="btn btn-secondary mb-2" onclick="exportData()">📥 Export All Data (JSON)</button>
+            <button class="btn btn-secondary mb-2" onclick="document.getElementById('importFile').click()">📤 Import Data</button>
+            <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)">
+            <p class="text-xs text-gray mt-2" id="backupNote"></p>
+            <hr>
+            <button class="btn btn-danger" onclick="resetAll()">🗑 Reset All Data</button>
+        </div>
+        <div class="card mt-3">
+            <div class="section-title">How to Backup to iCloud</div>
+            <p class="text-xs text-gray">Export the JSON file, then save it to your Files app. iCloud will sync it automatically if iCloud Drive is enabled.</p>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal" id="genericModal" style="display:none;">
+        <div class="modal-content" id="modalContent"></div>
+    </div>
+
+    <nav id="mainNav">
+        <button class="active" data-page="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Pulse</button>
+        <button data-page="grade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Grade</button>
+        <button data-page="inventory"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>Log</button>
+        <button data-page="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2"/></svg>Settings</button>
+    </nav>
+
+    <script>
+        // ========== DATA ENGINE ==========
+        const STORAGE_KEY = 'sourceos_v1';
+        let app = {
+            capital: { available: 0, inInventory: 0, inTransit: 0 },
+            inventory: [],
+            suppliers: [],
+            lastBackup: null
+        };
+
+        function loadData() {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) {
+                try {
+                    const p = JSON.parse(raw);
+                    app = { ...app, ...p };
+                } catch (e) {}
+            }
+        }
+
+        function saveData() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(app));
+            } catch (e) {
+                showToast('⚠ Storage full. Export your data.');
+            }
+        }
+
+        function fm(n) { return '₦' + Number(n).toLocaleString(); }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            if (!t) return;
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2000);
+        }
+
+        function gid() { return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6); }
+
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('#mainNav button').forEach(b => b.classList.remove('active'));
+            const pg = document.getElementById('page-' + page);
+            if (pg) pg.classList.add('active');
+            const btn = document.querySelector('#mainNav button[data-page="' + page + '"]');
+            if (btn) btn.classList.add('active');
+            if (page === 'dashboard') renderDashboard();
+            if (page === 'grade') renderGrade();
+            if (page === 'inventory') filterInventory('all');
+            if (page === 'settings') renderSettings();
+        }
+        document.getElementById('mainNav').addEventListener('click', function(e) {
+            const b = e.target.closest('button');
+            if (b && b.dataset.page) showPage(b.dataset.page);
+        });
+
+        // ========== DASHBOARD ==========
+        function renderDashboard() {
+            const totalInventory = app.inventory.filter(i => i.status === 'purchased' || i.status === 'shipping' || i
+                .status === 'received').reduce((s, i) => s + (i.purchasePrice || 0), 0);
+            const successRate = app.inventory.filter(i => i.status === 'sold' || i.status === 'received').length /
+                (app.inventory.length || 1) * 100;
+            const pending = app.inventory.filter(i => i.status === 'draft' || i.status === 'negotiating').length;
+            document.getElementById('dashCapital').textContent = fm(app.capital.available);
+            document.getElementById('dashInventory').textContent = fm(totalInventory);
+            document.getElementById('dashSuccess').textContent = Math.round(successRate) + '%';
+            document.getElementById('dashPending').textContent = pending;
+
+            const sortedSuppliers = [...app.suppliers].sort((a, b) => b.rating - a.rating).slice(0, 5);
+            document.getElementById('topSuppliers').innerHTML = sortedSuppliers.length ?
+                sortedSuppliers.map(s => `
+                <div class="row-item">
+                    <div class="flex-between">
+                        <span class="rt">${s.name}</span>
+                        <span class="badge badge-green">${s.rating}/5</span>
+                    </div>
+                    <div class="rm">${s.platform} · ${s.transactions} transactions</div>
+                </div>`).join('') :
+                '<p class="text-xs text-gray text-center">No suppliers logged yet</p>';
+
+            const recent = [...app.inventory].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0)).slice(0, 5);
+            document.getElementById('recentActivity').innerHTML = recent.length ?
+                recent.map(i => `
+                <div class="row-item">
+                    <span class="rt">${i.model} ${i.storage}GB</span>
+                    <div class="rm">${i.status} · ${i.date?.slice(0,10)}</div>
+                </div>`).join('') :
+                '<p class="text-xs text-gray text-center">No sourcing activity yet</p>';
+        }
+
+        // ========== GRADING ENGINE ==========
+        function renderGrade() {
+            const sections = [
+                { title: '⭐ Seller Score (20pts)', items: [
+                    { id: 'seller_rating', label: 'Rating 4.8+ (5pts)', points: 5 },
+                    { id: 'seller_transactions', label: '1000+ transactions (5pts)', points: 5 },
+                    { id: 'seller_age', label: 'Account 2+ years (4pts)', points: 4 },
+                    { id: 'seller_specialist', label: 'Phone specialist (3pts)', points: 3 },
+                    { id: 'seller_response', label: 'Response rate 95%+ (3pts)', points: 3 }
+                ]},
+                { title: '📱 Cosmetic (10pts)', items: [
+                    { id: 'cosmetic_frame', label: 'Frame: no heavy damage (4pts)', points: 4 },
+                    { id: 'cosmetic_screen', label: 'Screen: no heavy scratches (3pts)', points: 3 },
+                    { id: 'cosmetic_back', label: 'Back glass: not cracked (3pts)', points: 3 }
+                ]},
+                { title: '🖥 Display (15pts)', items: [
+                    { id: 'display_original', label: 'Original Apple display (15pts)', points: 15 },
+                    { id: 'display_true_tone', label: 'True Tone working (no deduction)', points: 0 }
+                ]},
+                { title: '🔋 Battery (10pts)', items: [
+                    { id: 'battery_95', label: '95-100% (10pts)', points: 10 },
+                    { id: 'battery_90', label: '90-94% (9pts)', points: 9 },
+                    { id: 'battery_85', label: '85-89% (8pts)', points: 8 },
+                    { id: 'battery_80', label: '80-84% (6pts)', points: 6 }
+                ]},
+                { title: '👤 Face ID (10pts)', items: [
+                    { id: 'face_id_working', label: 'Face ID working (10pts)', points: 10 }
+                ]},
+                { title: '📸 Camera (10pts)', items: [
+                    { id: 'camera_original', label: 'All cameras original (10pts)', points: 10 },
+                    { id: 'camera_one_replaced', label: 'One camera replaced (7pts)', points: 7 }
+                ]},
+                { title: '🔧 Parts Authenticity (10pts)', items: [
+                    { id: 'parts_original', label: 'Everything original (10pts)', points: 10 },
+                    { id: 'parts_screen_battery_original', label: 'Original screen + battery (10pts)', points: 10 },
+                    { id: 'parts_screen_original_battery_changed', label: 'Original screen, battery changed (8pts)', points: 8 }
+                ]},
+                { title: '📶 Network (5pts)', items: [
+                    { id: 'network_working', label: 'Everything works (5pts)', points: 5 }
+                ]},
+                { title: '🔄 Reset Verification (10pts)', items: [
+                    { id: 'reset_activation_free', label: 'Activation lock free (10pts)', points: 10 }
+                ]},
+                { title: '💰 Profit Score (10pts)', items: [
+                    { id: 'profit_50k', label: 'Expected profit > ₦50k (10pts)', points: 10 },
+                    { id: 'profit_40k', label: '₦40k (8pts)', points: 8 },
+                    { id: 'profit_30k', label: '₦30k (6pts)', points: 6 },
+                    { id: 'profit_20k', label: '₦20k (4pts)', points: 4 }
+                ]}
+            ];
+            let html = '';
+            sections.forEach(section => {
+                html += `<div class="card"><div class="section-title">${section.title}</div><div class="checklist-grid">`;
+                section.items.forEach(item => {
+                    html += `
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-points="${item.points}">
+                        <input type="checkbox">
+                        <span>${item.label}</span>
+                    </div>`;
+                });
+                html += `</div></div>`;
+            });
+            document.getElementById('gradingSections').innerHTML = html;
+            document.getElementById('finalScore').textContent = '0';
+            document.getElementById('decisionText').textContent = 'Complete checklist';
+        }
+
+        function toggleCheck(element) {
+            element.classList.toggle('checked');
+            const cb = element.querySelector('input[type="checkbox"]');
+            cb.checked = !cb.checked;
+            updateScore();
+        }
+
+        function updateScore() {
+            let score = 0;
+            document.querySelectorAll('#gradingSections .checklist-item.checked').forEach(item => {
+                score += parseInt(item.dataset.points || 0);
+            });
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('gradeScoreDisplay').textContent = 'Score: ' + score + '/100';
+        }
+
+        function makeDecision() {
+            const score = parseInt(document.getElementById('finalScore').textContent) || 0;
+            const decisionEl = document.getElementById('decisionText');
+            if (score >= 90) {
+                decisionEl.innerHTML = '<span class="text-green">✅ IMPORT — Good Deal</span>';
+                showToast('✅ This phone passes. You can log the purchase.');
+            } else if (score >= 80) {
+                decisionEl.innerHTML = '<span class="text-amber">⚠ NEGOTIATE — Try lower price</span>';
+            } else {
+                decisionEl.innerHTML = '<span class="text-red">❌ REJECT — Do not buy</span>';
+            }
+        }
+
+        // ========== ENHANCED SOURCING FORM ==========
+        function showAddPhoneForm() {
+            const modal = document.getElementById('genericModal');
+            const content = document.getElementById('modalContent');
+            content.innerHTML = `
+                <div class="flex-between mb-3"><h3 class="font-bold">Log Phone Purchase</h3><button onclick="closeModal()" style="background:none;border:none;color:var(--text2);font-size:1.5rem;">×</button></div>
+                <label>Model</label><input type="text" id="phModel" placeholder="iPhone 12">
+                <label class="mt-2">Storage (GB)</label><input type="number" id="phStorage" value="64">
+                <label class="mt-2">Color</label><input type="text" id="phColor">
+                <label class="mt-2">IMEI</label><input type="text" id="phIMEI">
+                <label class="mt-2">Serial</label><input type="text" id="phSerial">
+                <label class="mt-2">Supplier Name</label><input type="text" id="phSupplier">
+                <label class="mt-2">Supplier Rating (1-5)</label><input type="number" id="phRating" min="1" max="5" value="5">
+                <hr>
+                <label class="mt-2">Purchase Price (₦)</label><input type="number" id="phPrice" oninput="calcCosts()">
+                <label class="mt-2">Shipping Cost (₦)</label><input type="number" id="phShipping" value="0" oninput="calcCosts()">
+                <label class="mt-2">Import / Customs Cost (₦)</label><input type="number" id="phImport" value="0" oninput="calcCosts()">
+                <div class="grid-2 mt-2">
+                    <div><label>Landing Cost</label><div class="readonly-field" id="phLanding">₦0</div></div>
+                    <div><label>Expected Sell Price</label><input type="number" id="phSell" oninput="calcCosts()"></div>
+                </div>
+                <div class="grid-2 mt-2">
+                    <div><label>Expected Profit</label><div class="readonly-field" id="phProfit">₦0</div></div>
+                    <div><label>Status</label>
+                        <select id="phStatus">
+                            <option value="purchased">Purchased</option>
+                            <option value="negotiating">Negotiating</option>
+                            <option value="shipping">Shipping</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary mt-3" onclick="savePhone()">Save Phone</button>
+            `;
+            modal.style.display = 'flex';
+            // initial calculation
+            calcCosts();
+        }
+
+        function calcCosts() {
+            const price = Number(document.getElementById('phPrice')?.value) || 0;
+            const shipping = Number(document.getElementById('phShipping')?.value) || 0;
+            const importCost = Number(document.getElementById('phImport')?.value) || 0;
+            const sell = Number(document.getElementById('phSell')?.value) || 0;
+            const landing = price + shipping + importCost;
+            const profit = sell - landing;
+            const landingEl = document.getElementById('phLanding');
+            const profitEl = document.getElementById('phProfit');
+            if (landingEl) landingEl.textContent = fm(landing);
+            if (profitEl) {
+                profitEl.textContent = fm(profit);
+                profitEl.style.color = profit >= 0 ? 'var(--green)' : 'var(--red)';
+            }
+        }
+
+        function savePhone() {
+            const g = (id) => document.getElementById(id)?.value || '';
+            const gn = (id) => Number(document.getElementById(id)?.value) || 0;
+            const price = gn('phPrice');
+            const shipping = gn('phShipping');
+            const importCost = gn('phImport');
+            const landing = price + shipping + importCost;
+            const sell = gn('phSell');
+            const profit = sell - landing;
+            const phone = {
+                id: gid(),
+                model: g('phModel'),
+                storage: gn('phStorage'),
+                color: g('phColor'),
+                imei: g('phIMEI'),
+                serial: g('phSerial'),
+                supplierName: g('phSupplier'),
+                supplierRating: gn('phRating'),
+                purchasePrice: price,
+                shippingCost: shipping,
+                importCost: importCost,
+                landingCost: landing,
+                expectedSellPrice: sell,
+                expectedProfit: profit,
+                status: g('phStatus'),
+                date: new Date().toISOString()
+            };
+            app.inventory.unshift(phone);
+            if (phone.supplierName) {
+                const existing = app.suppliers.find(s => s.name === phone.supplierName);
+                if (existing) {
+                    existing.rating = Math.max(existing.rating, phone.supplierRating);
+                    existing.transactions++;
+                } else {
+                    app.suppliers.push({
+                        id: gid(),
+                        name: phone.supplierName,
+                        rating: phone.supplierRating,
+                        transactions: 1,
+                        platform: 'Direct'
+                    });
+                }
+            }
+            saveData();
+            closeModal();
+            filterInventory('all');
+            renderDashboard();
+            showToast('✅ Phone logged');
+        }
+
+        function closeModal() {
+            document.getElementById('genericModal').style.display = 'none';
+        }
+
+        let currentFilter = 'all';
+
+        function filterInventory(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('#inventoryFilter .chip').forEach(c => c.classList.remove('active'));
+            const activeChip = document.querySelector(`#inventoryFilter .chip[onclick="filterInventory('${filter}')"]`);
+            if (activeChip) activeChip.classList.add('active');
+            const filtered = filter === 'all' ? app.inventory : app.inventory.filter(i => i.status === filter);
+            const container = document.getElementById('inventoryList');
+            container.innerHTML = filtered.length ? filtered.map(i => `
+                <div class="row-item">
+                    <div class="flex-between">
+                        <span class="rt">${i.model} ${i.storage}GB</span>
+                        <span class="badge badge-${i.status==='sold'?'green':i.status==='rejected'?'red':'blue'}">${i.status}</span>
+                    </div>
+                    <div class="rm">${i.supplierName || 'Unknown'} · Landing: ${fm(i.landingCost || i.purchasePrice)} · Sell: ${fm(i.expectedSellPrice)}</div>
+                    <div class="rm">Profit: <span class="${(i.expectedProfit||0)>=0?'text-green':'text-red'}">${fm(i.expectedProfit||0)}</span> · ${i.date?.slice(0,10)}</div>
+                </div>
+            `).join('') : '<p class="text-xs text-gray text-center">No phones found</p>';
+        }
+
+        // ========== SETTINGS ==========
+        function renderSettings() {
+            const note = document.getElementById('backupNote');
+            if (!app.lastBackup) note.textContent = '⚠ No backup yet.';
+            else {
+                const days = Math.floor((Date.now() - new Date(app.lastBackup).getTime()) / 86400000);
+                note.textContent = days > 7 ? '⚠ Last backup: ' + days + ' days ago' : '✅ Backed up ' + days + ' days ago';
+            }
+        }
+
+        function exportData() {
+            const blob = new Blob([JSON.stringify(app, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'sourceos_backup_' + new Date().toISOString().slice(0, 10) + '.json';
+            a.click();
+            app.lastBackup = new Date().toISOString();
+            saveData();
+            renderSettings();
+            showToast('📥 Exported');
+        }
+
+        function importData(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                try {
+                    const data = JSON.parse(ev.target.result);
+                    if (data.inventory && data.suppliers) {
+                        if (confirm('Replace all data with this backup?')) {
+                            app = data;
+                            saveData();
+                            renderDashboard();
+                            filterInventory('all');
+                            renderSettings();
+                            showToast('📤 Imported');
+                        }
+                    } else {
+                        showToast('❌ Invalid file');
+                    }
+                } catch (x) {
+                    showToast('❌ Invalid file');
+                }
+            };
+            reader.readAsText(file);
+            e.target.value = '';
+        }
+
+        function resetAll() {
+            if (confirm('Delete ALL data?')) {
+                app = { capital: { available: 0, inInventory: 0, inTransit: 0 }, inventory: [], suppliers: [],
+                    lastBackup: null };
+                saveData();
+                renderDashboard();
+                filterInventory('all');
+                renderSettings();
+                showToast('🗑 Reset');
+            }
+        }
+
+        // ========== INIT ==========
+        loadData();
+        renderDashboard();
+        renderGrade();
+        filterInventory('all');
+        showPage('dashboard');
+    </script>
+</body>
+</html>
